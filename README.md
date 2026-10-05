@@ -6,9 +6,10 @@ https://research.33fg.com/mcp
 ## Get started
 
 Choose your assistant in [Easy setup](harnesses/README.md).
-Grok bot users can [copy and paste one instruction file](copy-paste/grok-bot.txt).
-Other harnesses have a single setup prompt that asks the assistant to install
-the skills and help connect Mach33; you complete the normal sign-in.
+Each harness has a short setup prompt that asks the assistant to read the
+canonical skills and help connect Mach33; you complete the normal sign-in.
+[Grok Bot](harnesses/grok-bot.md) saves reusable private skills rather than
+requiring the full workflow instructions to be pasted into each conversation.
 
 Repository: https://github.com/x4484/mach33-skills
 

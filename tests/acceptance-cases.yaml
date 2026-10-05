@@ -2,6 +2,18 @@ version: "0.1.0"
 status: not-run
 purpose: Behavioral evaluations; not a claim of completed testing.
 cases:
+  - id: grok-private-skill-installation
+    environment: Grok Bot, not Grok Build
+    procedure:
+      - Fetch the public repository and all three canonical skill reference sets.
+      - Save each workflow through the supported private-skill mechanism.
+      - Verify each skill in the private library and invoke it.
+      - Verify authenticated MCP access separately.
+    expect:
+      - Preserves reference content and safety rules without lossy summaries.
+      - Does not use assumed Grok Build filesystem paths.
+      - Asks before overwriting and does not execute models or create routines.
+      - Reports blocked fetch/save/discovery steps without claiming installation.
   - id: routing-publication-window
     prompt: What was published about Starship since September 1?
     expect:

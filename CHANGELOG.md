@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Grok Bot now uses a short setup prompt to save reusable private skills.
+- Removed the flattened instruction artifact and its generator.
+- Added a Grok private-library installation acceptance case.
+
 ## 0.1.0 — scaffold
 
 - Three independent outcome skills: Brief, Catch Up, Model Lab.
