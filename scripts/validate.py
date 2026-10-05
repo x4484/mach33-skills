@@ -41,7 +41,7 @@ for path in root.rglob("*.md"):
         assert "copy-paste/" not in path.read_text(), path
 cases = (root / "tests/acceptance-cases.yaml").read_text()
 ids = re.findall(r"^  - id: (.+)$", cases, re.M)
-assert len(ids) == 17 and len(set(ids)) == 17
+assert len(ids) == 22 and len(set(ids)) == 22
 assert "status: not-run" in cases
 assert "TERMS AND CONDITIONS" in (root / "LICENSE").read_text()
 for path in root.rglob("*"):
@@ -51,5 +51,5 @@ for path in root.rglob("*"):
     content = path.read_text()
     assert ("/rails/active_storage/" + "blobs/redirect/") not in content, path
     assert not re.search(r"(?:ghp_|gho_|sk-live-)[A-Za-z0-9]{20,}", content), path
-print("PASS references, Grok setup, 17 case definitions, license, public-pack hygiene")
+print("PASS references, Grok setup, 22 case definitions, license, public-pack hygiene")
 print("Behavioral acceptance and harness/Compute testing remain NOT RUN.")

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Resolve live tools at task start, combine related visible query fragments, and disclose discovery coverage.
+- Name sources for readers and explicitly label access status and claim attribution.
+- Reinforce fetched evidence and distinguish re-covered newsletter stories from new events.
+- Added five discovery/evidence acceptance cases.
+
 - Grok Bot now uses a short setup prompt to save reusable private skills.
 - Removed the flattened instruction artifact and its generator.
 - Added a Grok private-library installation acceptance case.

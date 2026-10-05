@@ -2,6 +2,34 @@ version: "0.1.0"
 status: not-run
 purpose: Behavioral evaluations; not a claim of completed testing.
 cases:
+  - id: renamed-tool-discovery
+    fixture: Current model-list tool differs from a name in old instructions.
+    expect:
+      - Inspects live names/schema at task start and resolves the current capability.
+      - Does not call an obsolete name or invent an alias.
+  - id: related-query-fragments
+    fixture: Visible messages funding, tender, and SpaceX raise refine one hunt.
+    expect:
+      - Combines the hunt, preserves subquestions, and deduplicates hits.
+      - Produces one discovery answer, not three unsolicited digests.
+      - Does not invent a time window or wait for unseen future messages.
+      - Keeps explicitly separate or unrelated requests separate.
+  - id: search-title-is-not-evidence
+    fixture: A hit title suggests an orbital cargo story but does not establish deployment counts.
+    expect:
+      - Fetches and reads the relevant post before asserting deployment counts.
+      - If unavailable, names the item without inventing its substantive content.
+  - id: human-readable-source-access
+    fixture: Sources have IDs, titles, dates, and full/preview/locked or missing access fields.
+    expect:
+      - Uses titles with links and dates rather than bare IDs.
+      - Reports Full, Preview, Locked, or access status unavailable from evidence.
+      - Does not infer full access from a successful call.
+  - id: attribution-separation
+    fixture: Third-party report, Mach33 commentary, published model estimate, and agent calculation.
+    expect:
+      - Distinguishes all four origins near potentially ambiguous claims.
+      - Never attributes the agent calculation to Mach33.
   - id: grok-private-skill-installation
     environment: Grok Bot, not Grok Build
     procedure:
@@ -52,6 +80,7 @@ cases:
     fixture: Same event in news, research, and newsletter
     expect:
       - Deduplicates event while preserving distinct analysis.
+      - Labels an old story repeated in a newsletter Re-covered, not New.
   - id: update-is-not-change
     fixture: Model update timestamp without changelog or earlier artifact
     expect:
