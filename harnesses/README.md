@@ -4,7 +4,7 @@ No terminal commands are required in these recommended setup flows: paste the
 appropriate prompt into your assistant and approve only the necessary setup steps.
 The assistant must have the tools/permissions needed to install files.
 
-- [Grok bot: copy and paste](grok-bot.md)
+- [Grok Bot: save reusable skills](grok-bot.md)
 - [Claude Code](claude-code.md)
 - [Codex](codex.md)
 - [Pi](pi.md)

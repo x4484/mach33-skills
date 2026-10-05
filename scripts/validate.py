@@ -2,8 +2,6 @@
 """Static pack validation; no network, package execution, or behavioral tests."""
 from pathlib import Path
 import re
-import subprocess
-import sys
 
 root = Path(__file__).resolve().parents[1]
 skills = sorted((root / "skills").glob("*/SKILL.md"))
@@ -32,15 +30,18 @@ for path in root.rglob("*.md"):
     for link in re.findall(r"\]\(([^)]+)\)", text):
         if not link.startswith(("https:", "http:", "#")):
             assert (path.parent / link).exists(), (path, link)
-artifact = root / "copy-paste/grok-bot.txt"
-before = artifact.read_bytes()
-subprocess.run([sys.executable, str(root / "scripts/build-copy-paste.py")], check=True)
-assert artifact.read_bytes() == before, "Generated artifact is out of date"
-assert "references/" not in artifact.read_text()
-assert artifact.read_text().count("## Included supporting section:") == 3
+assert not (root / "copy-paste").exists(), "Obsolete instruction artifact"
+assert not (root / "scripts/build-copy-paste.py").exists(), "Obsolete generator"
+grok = (root / "harnesses/grok-bot.md").read_text()
+assert "reusable private Grok Bot skills" in grok
+assert "including every referenced file" in grok
+assert "do not claim installation succeeded" in grok
+for path in root.rglob("*.md"):
+    if ".git" not in path.parts:
+        assert "copy-paste/" not in path.read_text(), path
 cases = (root / "tests/acceptance-cases.yaml").read_text()
 ids = re.findall(r"^  - id: (.+)$", cases, re.M)
-assert len(ids) == 16 and len(set(ids)) == 16
+assert len(ids) == 17 and len(set(ids)) == 17
 assert "status: not-run" in cases
 assert "TERMS AND CONDITIONS" in (root / "LICENSE").read_text()
 for path in root.rglob("*"):
@@ -50,5 +51,5 @@ for path in root.rglob("*"):
     content = path.read_text()
     assert ("/rails/active_storage/" + "blobs/redirect/") not in content, path
     assert not re.search(r"(?:ghp_|gho_|sk-live-)[A-Za-z0-9]{20,}", content), path
-print("PASS references, generated text, 16 case definitions, license, public-pack hygiene")
+print("PASS references, Grok setup, 17 case definitions, license, public-pack hygiene")
 print("Behavioral acceptance and harness/Compute testing remain NOT RUN.")
