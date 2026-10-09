@@ -28,6 +28,13 @@ deduplicate candidates by model ID or canonical URL. Do not assume future
 messages or merge unrelated requests. Retrieve an explicit discovered model ID.
 Read access status, metadata, associated research, version, update date,
 and file details. The server decides entitlement; do not infer it from titles.
+When a relevant podcast discusses a model, discover it with list_podcasts and
+fetch its write-up with get_podcast using the live schemas. search_all and
+whats_new do not include podcasts. Cite the episode title, date, link and access
+status; distinguish the write-up from a recording or transcript you have not
+reviewed. Episode commentary can explain assumptions, but cannot establish exact
+register keys, a package version change, or verified execution; confirm those
+in model metadata, documentation and package checks as appropriate.
 A user request to explain a model is not permission to run its code.
 Titles/snippets alone are not evidence for model results: read the accessible
 model documentation/research. Separate Reported news / Mach33 analysis /

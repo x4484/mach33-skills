@@ -18,9 +18,14 @@ is not certification that every harness or model runtime is supported.
 
 ## Status
 
-Scaffold: instructions are ready for review; server changes, live model execution,
-and client compatibility have not been validated by this scaffold.
-Do not advertise Compute support or distribute as a tested release yet.
+The [October 9 review](tests/eval-report-2026-10-09.md) confirms the main live MCP
+retrieval fixes and five native Pi workflow traces. Fixture decisions passed
+53/54 across two models and three runs. A subsequent podcast-coverage update
+passed 21/21 fixtures on GPT-6.1 and all three new podcast cases on GPT-5.5.
+Shared server instructions and evaluator hardening still need work. Model 68's
+baseline passes, but its tested changed-register scenario still fails verification.
+Six-harness installation and hosted-runtime compatibility remain unverified.
+Do not advertise general Compute support or blanket release certification.
 
 ## Choose a skill
 
@@ -130,8 +135,14 @@ subscriber content, or trademarks. MCP access remains subject to account terms.
 
 ## Development checks
 
-Run `python3 scripts/validate.py` for static checks. These do not execute the
-behavioral acceptance cases or certify harness/model compatibility.
+Run `python3 scripts/validate.py` for static checks.
+For isolated model decision evals, run `python3 scripts/run-behavioral-evals.py
+--model PROVIDER/MODEL --output /tmp/mach33-skill-evals/behavioral`.
+This uses your configured provider account and may incur inference usage.
+These fixture tests do not certify progressive skill activation, installations,
+or live tool execution. See the [latest review](tests/eval-report-2026-10-09.md)
+for separate native tool-trace coverage and remaining blockers. The
+[October 5 report](tests/eval-report-2026-10-05.md) preserves the earlier results.
 
 ## Scope
 

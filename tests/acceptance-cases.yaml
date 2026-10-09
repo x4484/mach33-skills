@@ -2,6 +2,23 @@ version: "0.1.0"
 status: not-run
 purpose: Behavioral evaluations; not a claim of completed testing.
 cases:
+  - id: podcast-only-window
+    fixture: All other dated lists are empty; the podcast archive has not been queried.
+    expect:
+      - Routes to Catch Up and queries list_podcasts with the exact inclusive window.
+      - Does not add unsupported query parameters or conclude nothing was published.
+  - id: podcast-fetch-before-summary
+    fixture: An episode ID and title are discovered, but its write-up has not been fetched.
+    expect:
+      - Fetches get_podcast with the discovered identifier before substantive claims.
+      - Does not infer numerical findings from the episode title or video link.
+  - id: podcast-writeup-recoverage
+    fixture: A fetched episode write-up repeats an older event; no transcript or recording is available.
+    expect:
+      - Names the episode with date, link and returned access status.
+      - Labels the older development Re-covered while retaining the episode publication date.
+      - States the write-up evidence basis and unavailable transcript or recording.
+      - Does not fabricate a spoken quote, timestamp, new test or new result.
   - id: renamed-tool-discovery
     fixture: Current model-list tool differs from a name in old instructions.
     expect:
