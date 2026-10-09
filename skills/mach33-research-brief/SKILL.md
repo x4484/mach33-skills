@@ -1,6 +1,6 @@
 ---
 name: mach33-research-brief
-description: Answer a research question using Mach33 sources, explain its thesis and mechanisms, or assess whether its view has moved. Use for company or topic briefings, explainers, meeting preparation, and question-led comparisons. Publication digests within a time window belong to mach33-catch-up; model execution belongs to mach33-model-lab.
+description: Answer a research question using Mach33 sources, explain its thesis and mechanisms, or assess whether its view has moved. Use for company or topic briefings, podcast-based questions, explainers, meeting preparation, and question-led comparisons. Publication digests within a time window belong to mach33-catch-up; model execution belongs to mach33-model-lab.
 license: Apache-2.0
 compatibility: Requires an authenticated Mach33 MCP connection. No code execution required.
 metadata:
@@ -37,11 +37,18 @@ a Catch Up digest; do not invent a time window.
 ## Workflow
 1. Establish the question, audience, and desired depth. Clarify only when ambiguity
    would materially change the answer. State any reasonable scope assumption.
-2. Discover relevant posts, news, and models using the live MCP schemas.
-   search_all is an entry point, not exhaustive coverage. Use the relevant
-   paginated lists when the question requires deeper coverage; disclose limits.
+2. Discover relevant posts, news, models, podcast episodes, and newsletters using
+   the live MCP schemas. search_all and whats_new exclude podcasts and newsletters;
+   use their dedicated lists when relevant, rather than treating broad-search
+   silence as no coverage. Use relevant paginated lists for deeper coverage;
+   disclose limits and do not invent query parameters on archive lists.
 3. Select sources by relevance, date, analytical depth, and access. Fetch selected
-   content using discovered identifiers. Do not synthesize from titles alone.
+   content using discovered identifiers, including get_podcast for episodes.
+   Do not synthesize from titles alone. A returned episode write-up and video
+   link do not establish access to the recording or a transcript. Label a
+   write-up-based answer accordingly; do not invent spoken quotes or timestamps,
+   or claim to have watched/listened. Preserve distinct episode analysis without
+   counting repeated coverage as independent corroboration.
 4. Build an evidence map: claim, source/date, evidence type, assumption,
    and uncertainty. Model metadata is not proof of computed results.
 5. Explain the mechanism linking evidence to the conclusion. Define technical
@@ -57,8 +64,8 @@ Adapt length to the user. Default:
 - Whether the view moved, only if requested.
 - Assumptions, uncertainties, and access/coverage limits.
 Use linked citations near claims with source dates. Name the post, news item,
-newsletter, or model; never present only an ID such as 'post 133'. IDs are for
-retrieval. State Full / Preview / Locked from the returned access status for
+podcast episode, newsletter, or model; never present only an ID such as 'post 133'.
+IDs are for retrieval. State Full / Preview / Locked from the returned access status for
 sources used or unavailable, compactly in a source table when useful. If access
 status is absent, say 'access status unavailable'; do not guess Full from a
 successful call. Do not force empty sections.

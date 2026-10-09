@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Static pack validation; no network, package execution, or behavioral tests."""
 from pathlib import Path
+import json
 import re
 
 root = Path(__file__).resolve().parents[1]
@@ -41,8 +42,12 @@ for path in root.rglob("*.md"):
         assert "copy-paste/" not in path.read_text(), path
 cases = (root / "tests/acceptance-cases.yaml").read_text()
 ids = re.findall(r"^  - id: (.+)$", cases, re.M)
-assert len(ids) == 22 and len(set(ids)) == 22
-assert "status: not-run" in cases
+assert len(ids) == 25 and len(set(ids)) == 25
+assert "status: not-run" in cases  # Full end-to-end acceptance suite is still unrun.
+fixtures = json.loads((root / "tests/behavioral-fixtures.json").read_text())
+fixture_ids = [c["id"] for c in fixtures["cases"]]
+assert len(fixture_ids) == 21 and len(set(fixture_ids)) == 21
+assert set(fixture_ids).issubset(set(ids))
 assert "TERMS AND CONDITIONS" in (root / "LICENSE").read_text()
 for path in root.rglob("*"):
     if not path.is_file() or ".git" in path.parts:
@@ -51,5 +56,5 @@ for path in root.rglob("*"):
     content = path.read_text()
     assert ("/rails/active_storage/" + "blobs/redirect/") not in content, path
     assert not re.search(r"(?:ghp_|gho_|sk-live-)[A-Za-z0-9]{20,}", content), path
-print("PASS references, Grok setup, 22 case definitions, license, public-pack hygiene")
-print("Behavioral acceptance and harness/Compute testing remain NOT RUN.")
+print("PASS references, Grok setup, 25 case definitions, 21 fixtures, license, public-pack hygiene")
+print("Static check only; see the evaluation report for behavioral/live coverage.")
