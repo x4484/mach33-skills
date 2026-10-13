@@ -30,7 +30,7 @@ for path in root.rglob("*.md"):
     assert "PASTE_PUBLIC_REPOSITORY_URL_HERE" not in text, path
     for link in re.findall(r"\]\(([^)]+)\)", text):
         if not link.startswith(("https:", "http:", "#")):
-            assert (path.parent / link).exists(), (path, link)
+            assert (path.parent / link.split('#', 1)[0]).exists(), (path, link)
 assert not (root / "copy-paste").exists(), "Obsolete instruction artifact"
 assert not (root / "scripts/build-copy-paste.py").exists(), "Obsolete generator"
 grok = (root / "harnesses/grok-bot.md").read_text()
@@ -42,11 +42,11 @@ for path in root.rglob("*.md"):
         assert "copy-paste/" not in path.read_text(), path
 cases = (root / "tests/acceptance-cases.yaml").read_text()
 ids = re.findall(r"^  - id: (.+)$", cases, re.M)
-assert len(ids) == 25 and len(set(ids)) == 25
+assert len(ids) == 38 and len(set(ids)) == 38
 assert "status: not-run" in cases  # Full end-to-end acceptance suite is still unrun.
 fixtures = json.loads((root / "tests/behavioral-fixtures.json").read_text())
 fixture_ids = [c["id"] for c in fixtures["cases"]]
-assert len(fixture_ids) == 21 and len(set(fixture_ids)) == 21
+assert len(fixture_ids) == 30 and len(set(fixture_ids)) == 30
 assert set(fixture_ids).issubset(set(ids))
 assert "TERMS AND CONDITIONS" in (root / "LICENSE").read_text()
 for path in root.rglob("*"):
@@ -56,5 +56,5 @@ for path in root.rglob("*"):
     content = path.read_text()
     assert ("/rails/active_storage/" + "blobs/redirect/") not in content, path
     assert not re.search(r"(?:ghp_|gho_|sk-live-)[A-Za-z0-9]{20,}", content), path
-print("PASS references, Grok setup, 25 case definitions, 21 fixtures, license, public-pack hygiene")
+print("PASS references, Grok setup, 38 case definitions, 30 fixtures, license, public-pack hygiene")
 print("Static check only; see the evaluation report for behavioral/live coverage.")

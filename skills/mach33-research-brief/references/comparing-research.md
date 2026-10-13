@@ -1,15 +1,21 @@
 # Comparing research
 
 Start from a question: has Mach33's view of a specific mechanism, assumption,
-or conclusion changed? Do not turn this into an exhaustive publication digest.
+or conclusion changed? Load this for comparison intent (changed, moved, versus an
+earlier position, or a specified past baseline), including earlier figures used
+as evidence of change. A date or publication-window request alone is not a thesis
+comparison. Do not turn this into an exhaustive publication digest.
 
 1. Establish the comparison baseline: dated research, a user-specified date,
    or a brief available in this conversation/pasted by the user.
    Ask for it if "last time" is otherwise undefined.
-2. Read both earlier and later relevant sources. A recent summary cannot
-   establish what the earlier source said.
-3. Compare like with like: scope, units, currency year, forecast horizon,
-   model version, scenario, and statistical convention.
+2. Discover and read both earlier and later relevant sources. Search the actual
+   baseline period/topic, not only the earlier design mentioned by the latest
+   article. A recent summary cannot establish what the earlier source said.
+3. Compare like with like: scope, units, denominator, prices, currency year,
+   forecast horizon, model version, scenario and statistical convention.
+   Separate absolute values from deltas against a reference design. If unlike
+   quantities cannot be reconciled, explain why no direct comparison is valid.
 4. Classify differences:
    - New reported evidence.
    - Updated assumption.

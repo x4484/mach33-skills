@@ -3,6 +3,264 @@
   "date": "2026-10-05",
   "cases": [
     {
+      "id": "script-chart-fact-check",
+      "user": "Fact-check this video script's chart caption against Mach33: '600 Mbps per beam was calculated from spectrum.'",
+      "sources": [
+        {
+          "id": "beam",
+          "title": "Beam capacity assumptions",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/beam",
+          "access": "full",
+          "content": "Mach33 uses 600 Mbps per beam as a stated estimate. This source contains no derivation from spectrum."
+        }
+      ],
+      "context": "The source body above has been fetched. No other data or calculation is supplied."
+    },
+    {
+      "id": "optional-argument-hygiene",
+      "user": "Find Mach33 research about Starlink capacity. No date restriction.",
+      "tools": [
+        {
+          "name": "list_posts",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "query",
+            "since",
+            "until",
+            "page",
+            "per_page"
+          ],
+          "parameter_types": {
+            "query": "string",
+            "since": "string",
+            "until": "string",
+            "page": "integer",
+            "per_page": "integer"
+          },
+          "required": []
+        }
+      ],
+      "context": "No prior searches. Optional fields are not nullable. Dates and pages may be omitted."
+    },
+    {
+      "id": "scope-before-download",
+      "user": "Explain Global Launch Manifest, then rerun it with 20% more Starship launches in 2027.",
+      "tools": [
+        {
+          "name": "list_models",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "query",
+            "page",
+            "per_page"
+          ],
+          "parameter_types": {
+            "query": "string",
+            "page": "integer",
+            "per_page": "integer"
+          },
+          "required": []
+        },
+        {
+          "name": "download_file",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "url"
+          ],
+          "parameter_types": {
+            "url": "string"
+          },
+          "required": [
+            "url"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "id": "m68",
+          "title": "Global Launch Manifest",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/m68",
+          "access": "full",
+          "content": "Historical measurement only, 1957–July 2026. No forward forecast or future launch-count register. Package filename: launch_manifest_estate.zip."
+        }
+      ],
+      "context": "Metadata and accompanying research above were retrieved. No package has been downloaded. No alternative model has been discovered. The user has not approved substituting a model."
+    },
+    {
+      "id": "unknown-register-not-unsupported",
+      "user": "Explain the model's switch defaults and units without running code.",
+      "sources": [
+        {
+          "id": "model",
+          "title": "Historical launch model",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/model",
+          "access": "full",
+          "content": "Historical measures use a definition register. The register defaults and unit rows are available only in launch_manifest_estate.zip, not in this documentation."
+        }
+      ],
+      "context": "Documentation fetched. No file inspection or runtime available in this fixture; user attachments are supported. No defaults may be inferred."
+    },
+    {
+      "id": "comparison-incompatible-figures",
+      "user": "Our chart says October's +$4.9M NPV means a satellite is now worth more than August's $12/W. Confirm?",
+      "sources": [
+        {
+          "id": "older",
+          "title": "August infrastructure costs",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/older",
+          "access": "full",
+          "content": "Non-compute infrastructure cost is $12 per average watt, excluding processors."
+        },
+        {
+          "id": "newer",
+          "title": "October design case",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/newer",
+          "access": "full",
+          "content": "+$4.9M is incremental satellite NPV versus the August reference design. No absolute satellite NPV is supplied."
+        }
+      ],
+      "context": "Both sources fetched. No conversion or missing baseline data is available."
+    },
+    {
+      "id": "catchup-unopened-news",
+      "user": "Summarize every news development published October 1 through October 2, 2026.",
+      "tools": [
+        {
+          "name": "get_news",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "news_id"
+          ],
+          "parameter_types": {
+            "news_id": "string"
+          },
+          "required": [
+            "news_id"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "id": "n1",
+          "title": "First news",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/n1",
+          "content": "Fetched commentary: an application was filed, not approved."
+        }
+      ],
+      "discovery_results": [
+        {
+          "id": 2,
+          "title": "Launch permit approved",
+          "date": "2026-10-02",
+          "url": "https://example.invalid/n2"
+        }
+      ],
+      "context": "All dated lists are exhausted. n1 is fetched; news 2 is list-only metadata, not fetched. There is no newsletter text supporting news 2. This is the entire source set."
+    },
+    {
+      "id": "access-by-response",
+      "user": "Summarize these fetched sources for the October 1–2 publication digest.",
+      "sources": [
+        {
+          "id": "post",
+          "title": "Analysis",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/post",
+          "access": "full",
+          "content": "Analysis discusses a proposed spacecraft design."
+        },
+        {
+          "id": "news",
+          "title": "Industry news",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/news",
+          "content": "A test is scheduled, not completed."
+        },
+        {
+          "id": "letter",
+          "title": "Newsletter",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/letter",
+          "content": "Repeats the design analysis without new results."
+        }
+      ],
+      "context": "All relevant lists exhausted and every supplied body fetched. No access fields are returned for news or newsletter."
+    },
+    {
+      "id": "quoted-model-discrepancy",
+      "user": "A podcast says the model predicts 40 launches in 2027. Is that still Mach33's number?",
+      "sources": [
+        {
+          "id": "episode",
+          "title": "Episode write-up",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/episode",
+          "access": "full",
+          "content": "The episode quotes 40 launches in 2027, without identifying a model version or scenario."
+        },
+        {
+          "id": "model",
+          "title": "Published launch scenario",
+          "date": "2026-10-01",
+          "url": "https://example.invalid/model",
+          "access": "full",
+          "content": "Current published reference scenario estimates 55 launches in 2027. This source does not establish what version or scenario the episode used."
+        }
+      ],
+      "context": "Both write-up and model documentation fetched. No recording, historical model version or execution is available."
+    },
+    {
+      "id": "partial-coverage-and-corrupt-summary",
+      "user": "Catch me up on publications from October 1 to October 2, 2026.",
+      "tools": [
+        {
+          "name": "get_news",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "news_id"
+          ],
+          "parameter_types": {
+            "news_id": "string"
+          },
+          "required": [
+            "news_id"
+          ]
+        },
+        {
+          "name": "list_posts",
+          "description": "Synthetic capability; use this exact live schema.",
+          "parameters": [
+            "since",
+            "until",
+            "page",
+            "per_page"
+          ],
+          "parameter_types": {
+            "since": "string",
+            "until": "string",
+            "page": "integer",
+            "per_page": "integer"
+          },
+          "required": []
+        }
+      ],
+      "discovery_results": [
+        {
+          "id": 7,
+          "title": "FCC ruling",
+          "date": "2026-10-01",
+          "summary": "%PDF-1.7 4 0 obj << /Filter /FlateDecode >> stream x9c... endstream"
+        }
+      ],
+      "context": "News list returned the entry above. No readable body fetched. Posts page 1 had has_more=true; page 2 failed. All other format lists were empty. Neither zero publications nor complete coverage has been established."
+    },
+    {
       "id": "podcast-only-window",
       "user": "What did Mach33 publish from October 1 through October 2, 2026? Include all publication formats.",
       "tools": [

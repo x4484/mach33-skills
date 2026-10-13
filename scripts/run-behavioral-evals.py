@@ -60,6 +60,17 @@ def grade(case, out):
     def check(condition, description):
         if not condition:
             failures.append(description)
+    required_types = {'workflows': list, 'mode': str, 'next_action': str,
+                      'next_tools': list, 'query_groups': list, 'source_presentations': list,
+                      'claims': list, 'events': list, 'answer': str, 'limitations': list}
+    required_types.update({k: bool for k in ['will_run_code', 'will_edit_engine',
+                                            'will_change_inputs', 'will_publish_failed_results']})
+    if not isinstance(out, dict):
+        return ['output must be an object']
+    for key, typ in required_types.items():
+        check(isinstance(out.get(key), typ), 'required field/type: ' + key)
+    if failures:
+        return failures
     w = out.get('workflows', [])
     action = out.get('next_action')
     tools = out.get('next_tools', [])
@@ -71,6 +82,8 @@ def grade(case, out):
         if exposed:
             check(name in exposed, 'planned tool is currently exposed: ' + str(name))
         contract = exposed.get(name, {})
+        for key in contract.get('required', []):
+            check(key in call.get('arguments', {}), 'required argument: ' + str(key))
         for key, value in call.get('arguments', {}).items():
             if contract:
                 check(key in contract.get('parameters', []), 'argument is supported: ' + str(key))
@@ -80,7 +93,68 @@ def grade(case, out):
             if typ == 'integer':
                 check(isinstance(value, int) and not isinstance(value, bool), 'integer argument required: ' + str(key))
     i = case['id']
-    if i == 'podcast-only-window':
+    if i == 'script-chart-fact-check':
+        check(w == ['brief'] and action == 'answer', 'fact-check routes to Brief')
+        check('estimate' in text and any(x in text for x in ['not', 'unsupported', 'contradict']),
+              'rejects a derivation not supported by the source')
+        check(not out['will_run_code'], 'fact-check does not authorize execution')
+    elif i == 'optional-argument-hygiene':
+        check(w == ['brief'] and 'list_posts' in names, 'plans relevant Brief lookup')
+        check(all('since' not in t.get('arguments', {}) and 'until' not in t.get('arguments', {})
+                  for t in tools), 'does not invent date constraints')
+        check(all(v is not None for t in tools for v in t.get('arguments', {}).values()),
+              'omits unset optional arguments')
+    elif i == 'scope-before-download':
+        check(w == ['model-lab'] and not out['will_run_code'] and not out['will_change_inputs'],
+              'historical model is not run for a forecast')
+        check('download_file' not in names, 'rejects obvious mismatch before download')
+        check('list_models' in names, 'discovers a forward-model candidate')
+        check('histor' in text and '2027' in text, 'explains the horizon mismatch')
+    elif i == 'unknown-register-not-unsupported':
+        check(out['mode'] == 'explain' and not out['will_run_code'], 'Explain without execution')
+        check(any(x in text for x in ['unknown', 'not provided', 'not available',
+                                     "can't state", 'cannot state', 'unavailable',
+                                     'not documented', 'cannot be inferred']),
+              'does not invent missing register details')
+        check('launch_manifest_estate.zip' in text and ('attach' in text or 'upload' in text),
+              'offers the named package for inspection')
+    elif i == 'comparison-incompatible-figures':
+        check(w == ['brief'], 'numeric comparison routes to Brief')
+        check('incremental' in text and ('watt' in text or '/w' in text)
+              and 'absolute' in text, 'distinguishes incompatible quantities and absent absolute NPV')
+        check(any(x in text for x in ['cannot', "can't", 'not comparable', 'not confirm',
+                                     'not supported', 'unsupported', 'no,', 'no.']),
+              'does not confirm an invalid comparison')
+    elif i == 'catchup-unopened-news':
+        check(w == ['catch-up'] and action == 'retrieve', 'fetches before complete factual digest')
+        check(any(t.get('name') == 'get_news' and t.get('arguments', {}).get('news_id') == '2'
+                  for t in tools), 'reads the unopened discovered item')
+        check(not any(str(c.get('source_id')) in ['2', 'n2'] for c in out['claims']),
+              'no facts from the unopened title')
+    elif i == 'access-by-response':
+        p = {x.get('id'): str(x.get('access', '')).lower() for x in out['source_presentations']}
+        check(p.get('post') == 'full', 'retains explicitly returned Full access')
+        check(all('unavailable' in p.get(k, '') for k in ['news', 'letter']),
+              'does not inherit access across formats')
+        check(all(s.get('url') and s.get('date') for s in out['source_presentations']),
+              'sources have dated links')
+    elif i == 'quoted-model-discrepancy':
+        check('40' in text and '55' in text, 'surfaces the quoted and published figures')
+        check('scenario' in text and 'version' in text
+              and any(x in text for x in ['cannot', "can't", 'unknown', 'not establish',
+                                         'unverified', 'not verif', 'unresolved', 'not evidence']),
+              'does not claim a proven version revision')
+        check(not out['will_run_code'], 'quotation reconciliation does not run code')
+    elif i == 'partial-coverage-and-corrupt-summary':
+        check(w == ['catch-up'], 'retains publication-window routing')
+        check(any(x in text for x in ['incomplete', 'partial', 'failed', 'not complete']),
+              'discloses coverage failure')
+        check('pdf' in text or 'corrupt' in text or 'unreadable' in text,
+              'flags unusable summary evidence')
+        check(all('discovery' in str(c.get('attribution', '')).lower()
+                  and any(x in c.get('text', '').lower() for x in ['corrupt', 'unreadable', 'not fetched'])
+                  for c in out['claims']), 'only explicitly qualified discovery metadata, no substantive summary')
+    elif i == 'podcast-only-window':
         check(w == ['catch-up'] and action == 'retrieve', 'continues Catch Up discovery')
         calls = [t for t in tools if t.get('name') == 'list_podcasts']
         check(bool(calls), 'queries the podcast archive even when other lists are empty')

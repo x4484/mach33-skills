@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Match delegated fact-checking, script/chart sourcing and quoted-model tasks; document parent/helper skill-loading verification.
+- Add bounded schema-aware lookup and optional-argument hygiene, broader comparison intent and like-for-like checks.
+- Require final fetched-evidence, dated-link, access and coverage checks; distinguish model quotations, missing artifacts and malformed summaries.
+- Gate model scope before downloads, offer authorized attachment inspection, and shorten no-Compute answers.
+
 - Explicit podcast discovery and fetched write-up evidence in all three workflows.
 - Treat podcast/newsletter omissions from broad aggregators and repeated events explicitly.
 - Added three podcast regression cases: empty-other-format discovery, fetch-before-summary, and write-up-only re-coverage.

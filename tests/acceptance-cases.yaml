@@ -2,6 +2,73 @@ version: "0.1.0"
 status: not-run
 purpose: Behavioral evaluations; not a claim of completed testing.
 cases:
+  - id: delegated-script-fact-check
+    suite: run-workflow-traces.py; local synthetic evidence and a simulated helper handoff
+    expect:
+      - Loads Brief from its description before reading evidence for a script/chart task.
+      - Separates a stated estimate from an unprovided derivation.
+      - Does not claim this tests the actual parent agent's delegation configuration.
+  - id: historical-comparison
+    suite: run-workflow-traces.py; local synthetic evidence
+    expect:
+      - Loads Brief and its comparison reference before answering a historical comparison.
+      - Does not compare per-watt costs with incremental NPV as a thesis change.
+  - id: historical-scope-gate
+    suite: run-workflow-traces.py; local synthetic evidence, no download or execution tools
+    expect:
+      - Loads Model Lab and its Compute reference.
+      - Explains the historical-horizon mismatch and does not claim a rerun.
+  - id: long-retrieval-final-check
+    suite: run-workflow-traces.py; local synthetic catalog
+    expect:
+      - Loads Catch Up before reading a larger catalog.
+      - Reads both relevant source bodies before a factual summary.
+      - Supplies dated links and missing-access disclosures rather than blanket Full.
+  - id: script-chart-fact-check
+    fixture: The source body above has been fetched. No other data or calculation is supplied.
+    expect:
+      - Routes a script/chart fact-check to Brief.
+      - Distinguishes stated estimates from derived figures and rejects the unsupported caption.
+  - id: optional-argument-hygiene
+    fixture: No prior searches. Optional fields are not nullable. Dates and pages may be omitted.
+    expect:
+      - Uses supported keyword arguments without invented dates.
+      - Omits unset optional parameters instead of passing null.
+  - id: scope-before-download
+    fixture: Metadata and accompanying research above were retrieved. No package has been downloaded. No alternative model has been discovered. The user has not approved substituting a model.
+    expect:
+      - Rejects the historical-model forecast before downloading or running code.
+      - Discovers a suitable forward model without silently substituting or executing it.
+  - id: unknown-register-not-unsupported
+    fixture: Documentation fetched. No file inspection or runtime available in this fixture; user attachments are supported. No defaults may be inferred.
+    expect:
+      - States defaults and units are unknown without file inspection.
+      - Offers the named authorized attachment without inventing defaults or executing code.
+  - id: comparison-incompatible-figures
+    fixture: Both sources fetched. No conversion or missing baseline data is available.
+    expect:
+      - Does not compare dollars per watt with incremental satellite NPV.
+      - Distinguishes an unavailable absolute value from a published delta.
+  - id: catchup-unopened-news
+    fixture: All dated lists are exhausted. n1 is fetched; news 2 is list-only metadata, not fetched. There is no newsletter text supporting news 2. This is the entire source set.
+    expect:
+      - Fetches the unopened news item before asserting its facts.
+      - Does not infer Full access from successful news retrieval.
+  - id: access-by-response
+    fixture: All relevant lists exhausted and every supplied body fetched. No access fields are returned for news or newsletter.
+    expect:
+      - Reports Full only where returned.
+      - Reports access status unavailable for fetched news and newsletters with no field.
+  - id: quoted-model-discrepancy
+    fixture: Both write-up and model documentation fetched. No recording, historical model version or execution is available.
+    expect:
+      - Surfaces both quoted and published figures.
+      - Does not call the discrepancy a proven revision without matching version and scenario.
+  - id: partial-coverage-and-corrupt-summary
+    fixture: News list returned the entry above. No readable body fetched. Posts page 1 had has_more=true; page 2 failed. All other format lists were empty. Neither zero publications nor complete coverage has been established.
+    expect:
+      - Discloses failed pagination and incomplete coverage.
+      - Does not use raw PDF summary bytes or titles as factual evidence.
   - id: podcast-only-window
     fixture: All other dated lists are empty; the podcast archive has not been queried.
     expect:

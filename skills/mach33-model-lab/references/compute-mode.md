@@ -1,12 +1,27 @@
 # Compute mode
 
+## 0. Check model scope before download
+Use accessible metadata/research to check the requested time horizon, output
+and input support. If clearly incompatible, stop before downloading. For example,
+a historical Global Launch Manifest cannot forecast 20% more launches in 2027.
+Use available read-only tools to discover a suitable forward model such as the
+current Launch Keystone, verify its scope/access, and ask before substituting it.
+Candidate discovery itself does not require substitution approval. Do not assume it supports the
+exact scenario until its documented inputs are checked.
+If the horizon fits but register details are unavailable, label support unknown;
+an authorized package inspection may resolve that gap without executing code.
+
 ## 1. Check feasibility and authorization
 Confirm the user requested the calculation, and identify the required runtime.
 Test the actual authorized file URL, including active_storage redirects.
 Do not assume that claude.ai or ChatGPT sandboxes can download it because a local
 client can. Follow host approval requirements for execution and dependencies.
-If direct download fails, a manual user download/upload may be feasible.
-If execution is unavailable, use Explain mode; never fabricate a rerun.
+If direct download fails, report the observed failure and, if attachments are
+supported, ask the user to download through their authorized account and attach
+the named package file from current metadata. Never request tokens, bypass access,
+or guess a filename. Inspect and verify the supplied package before any execution;
+an upload does not establish runtime compatibility. If attachments or execution
+are unavailable, offer Explain only. One failed URL is not proof all clients fail.
 
 For pack certification, use free model 68 before any Pro model.
 This fixture is a release test, not a prerequisite download for every user task.

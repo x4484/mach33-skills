@@ -27,6 +27,13 @@ baseline passes, but its tested changed-register scenario still fails verificati
 Six-harness installation and hosted-runtime compatibility remain unverified.
 Do not advertise general Compute support or blanket release certification.
 
+The [October 13 field-feedback update](tests/eval-report-2026-10-13.md) improves
+activation, final evidence checks, numerical comparisons and pre-download scope.
+GPT-6.1 passed 30/30 decisions and four progressive-loading synthetic traces.
+GPT-5.5 passed 9/10 targeted decisions after grader correction; it still omitted
+a planned candidate-discovery call in one safe scope rejection. Actual parent
+agent deployment, live MCP stress testing and claude.ai packaging remain separate.
+
 ## Choose a skill
 
 | Skill | Use it for | Example |
@@ -39,6 +46,8 @@ Catch Up is time-window-driven; Brief is question-driven.
 For a mixed request, run Catch Up first, then Brief, reusing sources.
 A previous briefing is usable only when present in the conversation or supplied
 by the user. Never assume access to previous sessions.
+For helper-agent work, follow the [delegation and activation guidance](harnesses/README.md#delegated-research-and-activation).
+Skill installation alone does not ensure that delegated agents load the workflow.
 
 ## Responsibility boundary
 
@@ -94,7 +103,8 @@ automatic installation or a promise of identical behavior.
 No environment has been certified by this scaffold.
 
 Test Compute separately in each environment:
-retrieve authorized model URL -> follow active_storage redirect -> download ZIP ->
+check model horizon/input scope -> retrieve authorized model URL ->
+follow active_storage redirect -> download ZIP ->
 safely extract -> inspect documentation/code -> satisfy dependencies ->
 execute package baseline self-check -> reproduce baseline ->
 change documented register/config -> rerun -> execute post-change self-check.
@@ -135,14 +145,25 @@ subscriber content, or trademarks. MCP access remains subject to account terms.
 
 ## Development checks
 
-Run `python3 scripts/validate.py` for static checks.
+Run `python3 scripts/validate.py` for static checks and
+`python3 -B tests/test_behavioral_grader.py` for offline grader canaries.
 For isolated model decision evals, run `python3 scripts/run-behavioral-evals.py
 --model PROVIDER/MODEL --output /tmp/mach33-skill-evals/behavioral`.
 This uses your configured provider account and may incur inference usage.
 These fixture tests do not certify progressive skill activation, installations,
-or live tool execution. See the [latest review](tests/eval-report-2026-10-09.md)
-for separate native tool-trace coverage and remaining blockers. The
+or live tool execution. See the [field-feedback evaluation](tests/eval-report-2026-10-13.md)
+and the [October 9 live review](tests/eval-report-2026-10-09.md)
+for their distinct tool-trace coverage and remaining blockers. The
 [October 5 report](tests/eval-report-2026-10-05.md) preserves the earlier results.
+
+For progressive skill-loading traces against local synthetic evidence:
+`python3 scripts/run-workflow-traces.py --model PROVIDER/MODEL
+--output /tmp/mach33-workflow-traces`.
+This launches fresh Pi sessions with only the read tool. It tests natural task
+activation, applicable reference reads and evidence handling after a larger
+catalog read. The helper handoff is simulated: it does not certify the actual
+parent agent's delegation policy, live MCP behavior or installation in another
+client. Inspect the saved answers and tool traces as well as the automated checks.
 
 ## Scope
 
