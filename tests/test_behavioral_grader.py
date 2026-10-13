@@ -10,11 +10,13 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 source = ROOT / 'scripts/run-behavioral-evals.py'
-grade_node = next(n for n in ast.parse(source.read_text()).body
-                  if isinstance(n, ast.FunctionDef) and n.name == 'grade')
+nodes = {n.name: n for n in ast.parse(source.read_text()).body
+         if isinstance(n, ast.FunctionDef) and n.name in {'grade', 'parse_json'}}
 namespace = {'json': json, 're': __import__('re')}
-exec(compile(ast.Module(body=[grade_node], type_ignores=[]), str(source), 'exec'), namespace)
+exec(compile(ast.Module(body=[nodes['grade'], nodes['parse_json']], type_ignores=[]),
+             str(source), 'exec'), namespace)
 grade = namespace['grade']
+parse_json = namespace['parse_json']
 CASES = {c['id']: c for c in json.loads((ROOT / 'tests/behavioral-fixtures.json').read_text())['cases']}
 
 
@@ -24,6 +26,13 @@ def output():
                 events=[], will_run_code=False, will_edit_engine=False,
                 will_change_inputs=False, will_publish_failed_results=False,
                 answer='', limitations=[])
+
+
+class ParseJsonCanaries(unittest.TestCase):
+    def test_fenced_unicode_json_preserves_empty_values(self):
+        expected = {'label': 'café ☕', 'empty': '', 'items': []}
+        text = '```json\n' + json.dumps(expected, ensure_ascii=False) + '\n```'
+        self.assertEqual(parse_json(text), expected)
 
 
 class GraderCanaries(unittest.TestCase):
